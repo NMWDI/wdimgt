@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
 }
 
 .App-logo {
@@ -35,4 +35,28 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.hcontainer {
+    display: flex;
+}
+.divL, .divR {
+    box-sizing: border-box;
+    padding: 10px;
+}
+.divL {
+    background: #ccfffa;
+    /* OPTIONAL WIDTH
+    /*width: 40%*/
+    width: 50%
+}
+.divR {
+    background: #ccfffa;
+    /* OPTIONAL WIDTH
+    width: 60% */
+    width: 50%
+}
+.leaflet-container {
+    width: 100%;
+    height: 400px;
 }
