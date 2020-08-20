@@ -3,6 +3,8 @@ import SelectableTable from "./selectable_table";
 import axios from "axios";
 import CONSTANTS from "./constants"
 import retrieveItems from "./util";
+import {trackPromise} from "react-promise-tracker";
+import LoadingIndicator from "./LoadingIndicator";
 
 
 
@@ -48,6 +50,31 @@ class ThingEditor extends Component {
         }
     }
 
+    exportThings(url){
+        trackPromise(retrieveItems(url, null, resp=>{
+            console.log(resp)
+
+            let csv='data:text/csv;charset=utf-8,'
+            csv += resp.map(e=>e['name']).join('\n')
+            let encodedUri = encodeURI(csv);
+            window.open(encodedUri);
+
+        }, null, null, 'value'))
+
+    }
+
+    handleExportWaterLevelThingsCSV(evt) {
+        let url = CONSTANTS.ST + "Things?$expand=Datastreams&$filter=Datastreams/name eq 'Depth Below Surface'"
+        this.exportThings(url)
+
+    }
+
+    handleExportWaterQualityThingsCSV(evt){
+        let url = CONSTANTS.ST+"Things?$expand=Datastreams&$filter=Datastreams/name ne 'Depth Below Surface'"
+        this.exportThings(url)
+    }
+
+
     render() {
         const thing_columns = [{'label': 'Name', 'key': 'name'},
                         {'label': 'ID', 'key': 'id'},
@@ -58,7 +85,10 @@ class ThingEditor extends Component {
                 <div>
                     <button onClick={evt=>this.handleCustom(evt)}>CustomSearch</button>
                     <button onClick={evt=>this.handleCustomEdit(evt)}>CustomEdit</button>
+                    <button onClick={evt=>this.handleExportWaterLevelThingsCSV(evt)}>Export WaterLevel Things</button>
+                    <button onClick={evt=>this.handleExportWaterQualityThingsCSV(evt)}>Export WaterQuality Things</button>
                 </div>
+                <LoadingIndicator />
                 <div>
                         <h3>Things</h3>
                         <SelectableTable

@@ -11,7 +11,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import useStyles from "./styles";
 
 function toCSVRow(items){
-    return items.reduce((acc, cur)=>(acc+','+cur))+'\n'
+    return items.reduce((acc, cur)=>(acc+'\t'+cur))+'\n'
 }
 
 function saveFile(txt, name){
@@ -135,19 +135,23 @@ function SelectableTable(props){
                             <TableRow key={r.id}
                                       className={classes.row}
                                       // hover
-                                      onClick = {(event) => handleClick(event, r)}
-                                      role='checkbox'
+                                      // role='checkbox'
                                       selected={isItemSelected}>
 
                                 <TableCell padding="checkbox">
                                     <Checkbox
+                                        onClick={evt=>handleClick(evt, r)}
                                         color={'primary'}
                                         // className={classes.paddingCheckbox}
                                         checked={isItemSelected}/>
                                 </TableCell>
 
-                                {props.columns.map(c=><TableCell className={classes.sizeSmall}
-                                                    key={c.key}>{r[c.key]}</TableCell>)}
+                                {props.columns.map(c=><TableCell
+                                    className={classes.sizeSmall}
+                                    component={c.component?c.component:''}
+                                    href={r.href?r.href:''}
+                                    target={r.href?'_blank':''}
+                                    key={c.key}>{r[c.key]}</TableCell>)}
 
                             </TableRow>
                         )})

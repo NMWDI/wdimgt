@@ -10,6 +10,7 @@ import Tabs from "@material-ui/core/Tabs";
 import AppBar from "@material-ui/core/AppBar";
 import LocationEditor from "./LocationEditor";
 import ThingEditor from "./ThingEditor";
+import CKANEditor from "./CKANEditor";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                       <Tab label="Location Edit" component={Link} to="/locationedit" />
                       <Tab label="Thing Edit" component={Link} to="/thingedit" />
                       <Tab label="QC" component={Link} to="/qc" />
+                      <Tab label="CKAN" component={Link} to="/ckan" />
                     </Tabs>
                   </AppBar>
 
@@ -41,6 +43,9 @@ function App() {
                     </Route>
                     <Route path="/thingedit">
                       <ThingEditor />
+                    </Route>
+                    <Route path="/ckan">
+                      <CKANEditor/>
                     </Route>
                     <Route path="/qc">
                       <ClowderTable />
